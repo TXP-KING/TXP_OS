@@ -1,7 +1,7 @@
 # TXPOS
 
 <p align="center">
-  <img src="logo.png" alt="TXPOS Logo" width="180">
+  <img src="docs/logo.png" alt="TXPOS Logo" width="180">
 </p>
 
 <h1 align="center">TXPOS</h1>
