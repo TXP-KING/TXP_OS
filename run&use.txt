@@ -1,0 +1,109 @@
+TXPOS - Run and Use in VirtualBox
+=================================
+
+Current Status
+--------------
+
+TXPOS is at Milestone 1: a bootable UEFI system.
+The project builds and packages:
+- dist/BOOTX64.EFI (UEFI bootloader binary)
+- dist/txpos.img (FAT32 disk image containing boot partition)
+- dist/txpos.iso (Bootable ISO for optical drives)
+
+
+1. Build the Bootable Images
+----------------------------
+
+Open a terminal in the project root:
+
+    C:\Users\lenovo\Desktop\TXPOS
+
+Run:
+
+    cargo run -p xtask -- build-release-image
+
+This will automatically run tests, build the kernel and bootloader, stage the partition, and generate the final images under the `dist/` directory.
+
+
+2. Create a New VM in VirtualBox
+--------------------------------
+
+1. Open VirtualBox and click "New".
+2. Set VM parameters:
+   - Name: TXPOS
+   - Type: Other
+   - Version: Other/Unknown (64-bit)
+   - Memory: 1024 MB or more
+   - Hard Disk: Do not add a virtual hard disk yet (if booting from ISO)
+
+
+3. CRITICAL: Enable UEFI (Fixes "Missing Operating System" / "Failed to Boot")
+------------------------------------------------------------------------------
+
+VirtualBox defaults to legacy BIOS mode. TXPOS is a UEFI operating system and WILL NOT BOOT if UEFI is disabled.
+
+To enable UEFI:
+1. Open the VM Settings.
+2. Go to System > Motherboard tab.
+3. Check the box: [x] Enable EFI (special OSes only).
+
+
+4. Configure Boot Order (Fixes "Failed to Boot" / Boot Loop)
+------------------------------------------------------------
+
+1. Under Settings > System > Motherboard.
+2. In the "Boot Order" list, make sure:
+   - Optical is checked and moved to the TOP of the list.
+   - Hard Disk (if using .img) is checked and moved below Optical.
+   - Floppy can be unchecked.
+
+
+5. Attach the ISO Image (Fixes "No bootable medium found")
+----------------------------------------------------------
+
+Make sure you select the ISO from the `dist` folder:
+
+1. Go to Settings > Storage.
+2. Click on the "Empty" Controller: IDE optical drive.
+3. Click the blue Disk Icon on the right side under Attributes.
+4. Select "Choose a disk file...".
+5. Browse to the CORRECT path:
+
+       C:\Users\lenovo\Desktop\TXPOS\dist\txpos.iso
+
+   (Ensure it is inside the `dist` folder, not the root directory!)
+
+
+6. Boot TXPOS
+-------------
+
+1. Click Start in VirtualBox.
+2. The VM will boot and display:
+   - The UEFI GOP Bootscreen (Vibrant gradient with gold/cyan TX logo and loading bar).
+   - The bootloader will read KERNEL.BIN from the FAT32 volume, parse its ELF sections, map them, and jump.
+   - The Kernel Dashboard will load, displaying a dark graphical desktop workspace containing status badges for TXShield, TXSentinel, TXVault, and TXFirewall, alongside a terminal window and a gold mouse cursor.
+
+
+7. Troubleshooting Common VirtualBox Issues
+-------------------------------------------
+
+* Issue: "Fatal: No bootable medium found! System halted" or "Missing operating system"
+  -> Fix: Ensure "[x] Enable EFI" is checked under Settings > System > Motherboard.
+  -> Fix: Double-check that `dist/txpos.iso` is actually attached to the optical storage drive.
+
+* Issue: "Misconfigured boot order" or booting to UEFI shell
+  -> Fix: Change the boot order under Settings > System > Motherboard. Make "Optical" the first boot priority. If using `txpos.img`, attach it as a SATA Hard Disk and make "Hard Disk" the first boot priority.
+
+* Issue: UEFI boots to the UEFI Interactive Shell showing "Failed to load Boot0001 (UEFI VBOX CD-ROM)"
+  -> Fix 1 (Manual Boot): In the UEFI interactive shell, type the following two commands and press Enter after each:
+         FS0:
+         EFI\BOOT\BOOTX64.EFI
+     This manually starts the bootloader directly.
+  -> Fix 2 (Use Hard Disk Image): Hard disks are more reliably booted automatically by VirtualBox UEFI than custom optical ISOs. Attach the image file as a hard disk:
+     1. In VM Settings, go to Storage.
+     2. Remove the empty optical drive.
+     3. Add a SATA Controller (if not present) and add a Hard Disk.
+     4. Choose a disk file and select:
+            C:\Users\lenovo\Desktop\TXPOS\dist\txpos.img
+     5. Under Settings > System > Motherboard, ensure "Hard Disk" is checked and moved to the top of the boot order.
+     6. Start the VM. It will auto-boot to the bootscreen without opening the UEFI shell.

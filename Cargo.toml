@@ -1,0 +1,33 @@
+[workspace]
+members = [
+    "bootloader",
+    "kernel",
+    "memory",
+    "scheduler",
+    "filesystem",
+    "networking",
+    "crypto",
+    "security",
+    "txshield",
+    "txsentinel",
+    "txvault",
+    "txfirewall",
+    "tools/xtask",
+]
+resolver = "3"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+authors = ["TXPOS Contributors"]
+
+[workspace.lints.rust]
+missing_docs = "warn"
+unsafe_op_in_unsafe_fn = "deny"
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"

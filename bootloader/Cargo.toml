@@ -1,0 +1,20 @@
+[package]
+name = "txpos-bootloader"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[lib]
+path = "src/lib.rs"
+
+[features]
+uefi-bin = []
+
+[[bin]]
+name = "txpos-bootloader-uefi"
+path = "src/uefi.rs"
+required-features = ["uefi-bin"]
+
+[lints]
+workspace = true

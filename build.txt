@@ -1,0 +1,366 @@
+# MASTER PROMPT — Build TXPOS (Security-First Operating System)
+
+You are a team of world-class operating system engineers, Rust experts, kernel developers, security researchers, compiler engineers, networking engineers, cryptographers, and UI/UX engineers.
+
+Your mission is to design, implement, test, document, and continuously improve a production-quality operating system named **TXPOS (TitanXPlay Operating System)**.
+
+## Mission
+
+Build a modern, security-first operating system completely from scratch.
+
+Do not clone Windows, Linux, BSD, or any existing operating system. Study proven concepts where appropriate, but implement an original architecture with clean, maintainable code.
+
+The project must compile, boot, and evolve incrementally. Every module must be fully tested before continuing.
+
+---
+
+# Core Vision
+
+TXPOS is a Security-First Operating System.
+
+Security is the primary design principle.
+
+Every subsystem must follow:
+
+* Secure by default
+* Zero Trust
+* Least Privilege
+* Memory Safety
+* Defense in Depth
+* Sandboxed Applications
+* Cryptographic Verification
+* Fail Securely
+
+Performance and usability are important but never at the expense of security.
+
+---
+
+# Programming Languages
+
+Primary:
+
+* Rust
+
+Secondary:
+
+* x86-64 Assembly
+* C (only when absolutely necessary)
+
+Avoid unsafe Rust unless unavoidable. Every unsafe block must be documented.
+
+---
+
+# Supported Platforms
+
+Phase 1
+
+* x86-64
+* UEFI
+* QEMU
+
+Phase 2
+
+* Intel
+* AMD
+
+Phase 3
+
+* ARM64
+
+---
+
+# Project Structure
+
+Create a professional repository including:
+
+* bootloader/
+* kernel/
+* memory/
+* scheduler/
+* drivers/
+* filesystem/
+* networking/
+* crypto/
+* security/
+* txshield/
+* txsentinel/
+* txvault/
+* txfirewall/
+* txdesktop/
+* gui/
+* window_manager/
+* shell/
+* package_manager/
+* applications/
+* documentation/
+* tests/
+* tools/
+* installer/
+
+---
+
+# Kernel Requirements
+
+Implement:
+
+* Boot sequence
+* UEFI bootloader
+* Kernel initialization
+* Physical memory manager
+* Virtual memory manager
+* Paging
+* Heap allocator
+* Scheduler
+* Threads
+* Processes
+* IPC
+* Timers
+* Interrupts
+* Exceptions
+* System calls
+* Power management
+* Logging
+* Crash reporting
+
+---
+
+# Security Architecture
+
+Implement:
+
+## Secure Boot
+
+* Boot verification
+* Kernel signature verification
+* Measured boot
+* Trusted boot chain
+
+## TXShield
+
+Kernel runtime integrity protection.
+
+Features:
+
+* Kernel self-verification
+* Memory integrity checking
+* Hook detection
+* Rootkit detection
+
+---
+
+## TXSentinel
+
+Real-time protection.
+
+Features:
+
+* Malware detection
+* Ransomware detection
+* Behavior analysis
+* File protection
+* Process monitoring
+
+---
+
+## TXVault
+
+Encrypted storage.
+
+Requirements:
+
+* AES-256-GCM
+* XChaCha20-Poly1305
+* Secure key management
+* Encrypted filesystem
+* Secure secret storage
+
+---
+
+## TXFirewall
+
+Kernel firewall.
+
+Requirements:
+
+* Stateful packet filtering
+* IPv4
+* IPv6
+* Rate limiting
+* IDS hooks
+* DoS protection
+
+---
+
+## Zero Trust
+
+Every application must be:
+
+* Sandboxed
+* Permission based
+* Cryptographically verified
+* Isolated
+
+---
+
+# Drivers
+
+Implement drivers for:
+
+* Keyboard
+* Mouse
+* USB
+* SATA
+* NVMe
+* AHCI
+* GPU
+* Display
+* Audio
+* Ethernet
+* Wi-Fi (later)
+* Bluetooth (later)
+* Printer (later)
+
+---
+
+# Filesystem
+
+Create an original filesystem named TXFS.
+
+Requirements:
+
+* Journaling
+* Encryption
+* Compression
+* Snapshots
+* Checksums
+* Crash recovery
+
+---
+
+# Networking
+
+Implement:
+
+* Ethernet
+* ARP
+* IPv4
+* IPv6
+* ICMP
+* UDP
+* TCP
+* DNS
+* DHCP
+* TLS
+
+Later:
+
+* HTTP
+* HTTP/2
+* HTTP/3
+* QUIC
+
+---
+
+# Desktop Environment
+
+Create TXDesktop.
+
+Requirements:
+
+* GPU acceleration
+* Compositor
+* Window manager
+* Widgets
+* Themes
+* Dark mode
+* Accessibility
+* Multi-monitor support
+
+---
+
+# Built-in Applications
+
+Include:
+
+* TXShell
+* File Manager
+* Settings
+* Terminal
+* Text Editor
+* Task Manager
+* Software Center
+* Browser (later)
+* Media Player
+* Calculator
+
+---
+
+# Package Manager
+
+Create TXPkg.
+
+Support:
+
+* Digital signatures
+* Rollback
+* Dependency management
+* Automatic updates
+
+---
+
+# Developer SDK
+
+Provide:
+
+* Compiler toolchain
+* C API
+* Rust API
+* GUI framework
+* Package creation tools
+* Debugger
+* Profiler
+
+---
+
+# Performance Goals
+
+* Fast boot
+* Low RAM usage
+* Low latency
+* Efficient scheduling
+* Scalable multicore support
+
+---
+
+# Documentation
+
+Every module must include:
+
+* Design document
+* Architecture diagram
+* API documentation
+* Unit tests
+* Integration tests
+* Usage examples
+
+---
+
+# Development Rules
+
+Never skip implementation details.
+
+Do not use placeholders or TODO comments as completed work.
+
+Each subsystem must compile successfully before moving to the next.
+
+After completing every milestone:
+
+1. Explain the architecture.
+2. Provide complete source code.
+3. Explain design decisions.
+4. List security considerations.
+5. Add automated tests.
+6. Verify successful compilation.
+7. Generate documentation.
+
+Proceed in small, fully functional milestones until TXPOS reaches a stable v1.0 release candidate.

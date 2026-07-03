@@ -1,0 +1,27 @@
+[package]
+name = "txpos-kernel"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[dependencies]
+txpos-memory = { path = "../memory" }
+txpos-scheduler = { path = "../scheduler" }
+txpos-security = { path = "../security" }
+txpos-txshield = { path = "../txshield" }
+txpos-bootloader = { path = "../bootloader" }
+
+[lib]
+path = "src/lib.rs"
+
+[features]
+kernel-bin = []
+
+[[bin]]
+name = "txpos-kernel-entry"
+path = "src/entry.rs"
+required-features = ["kernel-bin"]
+
+[lints]
+workspace = true

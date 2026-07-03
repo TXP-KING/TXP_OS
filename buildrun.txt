@@ -1,0 +1,108 @@
+TXPOS - Build Final EFI, IMG, and ISO
+=====================================
+
+Purpose
+-------
+
+This file explains the final build process and file layout for TXPOS boot files:
+
+    dist\BOOTX64.EFI
+    dist\txpos.img
+    dist\txpos.iso
+
+These are the files needed to boot TXPOS in VirtualBox, QEMU, or real UEFI
+hardware.
+
+
+Current Status
+--------------
+
+TXPOS is at Milestone 1.
+
+The project automatically builds and compiles:
+1. The UEFI Bootloader (`dist/esp/EFI/BOOT/BOOTX64.EFI`).
+2. The Kernel (`dist/esp/TXPOS/KERNEL.BIN`).
+3. The FAT32 EFI partition image (`dist/txpos.img`).
+4. The bootable ISO image (`dist/txpos.iso`).
+
+Both the bootloader (via UEFI Graphics Output Protocol) and the kernel contain fully graphical user interfaces.
+
+
+Required Tools
+--------------
+
+Install these tools before building:
+
+    1. Rust and Cargo
+    2. Rust UEFI target: `rustup target add x86_64-unknown-uefi`
+    3. Rust bare-metal kernel target: `rustup target add x86_64-unknown-none`
+    4. VirtualBox or QEMU for opening the final ISO
+
+
+Final Output Folder
+-------------------
+
+The final build places boot files in:
+
+    C:\Users\lenovo\Desktop\TXPOS\dist
+
+Expected final files:
+
+    C:\Users\lenovo\Desktop\TXPOS\dist\BOOTX64.EFI
+    C:\Users\lenovo\Desktop\TXPOS\dist\txpos.img
+    C:\Users\lenovo\Desktop\TXPOS\dist\txpos.iso
+
+
+Step 1 - Unified Build Command
+------------------------------
+
+To run workspace tests, compile the bootloader and kernel, and package the IMG and ISO, run:
+
+    cargo run -p xtask -- build-release-image
+
+
+Step 2 - The Boot Handoff Process
+---------------------------------
+
+1. The UEFI firmware boots `dist/BOOTX64.EFI` from the ISO.
+2. The bootloader queries the Graphics Output Protocol (GOP) and draws a visual bootscreen showing Secure Boot checks.
+3. The bootloader locates the simple file system, opens `\TXPOS\KERNEL.BIN`, and loads it into a pool.
+4. The bootloader parses the ELF headers, allocates pages, maps all loadable segments (`PT_LOAD`), and zero-initializes `.bss` memory.
+5. The bootloader jumps directly to the entry point `_start` passing a `BootInfo` structure containing the active GOP framebuffer address.
+6. The kernel initializes physical memory allocation and calls the graphical renderer to draw the desktop dashboard interface.
+
+
+Step 3 - Test in VirtualBox (EFI Configuration)
+-----------------------------------------------
+
+1. Create a VM in VirtualBox:
+   - Name: TXPOS
+   - Type: Other
+   - Version: Other/Unknown (64-bit)
+   - Memory: 1024 MB or more
+   - Hard disk: Do not add a virtual hard disk (if booting from ISO)
+
+2. CRITICAL: Enable UEFI (Motherboard Settings)
+   - Go to: Settings > System > Motherboard.
+   - Check the box: [x] Enable EFI (special OSes only).
+   - In Boot Order, ensure "Optical" is checked and placed at the top.
+
+3. Attach the ISO:
+   - Go to: Settings > Storage > Optical Drive > Choose a disk file.
+   - Select the file from the `dist/` directory:
+
+         C:\Users\lenovo\Desktop\TXPOS\dist\txpos.iso
+
+4. Start the VM.
+
+
+Troubleshooting Boot Issues
+---------------------------
+
+* Issue: "Fatal: No bootable medium found! System halted" or "Missing operating system"
+  -> Cause: EFI is disabled in VM settings, or the ISO was not correctly attached to the optical drive.
+  -> Solution: Check the box "Enable EFI" under Settings > System > Motherboard, and verify the path is `dist/txpos.iso`.
+
+* Issue: UEFI Interactive Shell opens instead of booting
+  -> Cause: The boot order does not have the optical drive prioritized.
+  -> Solution: Move "Optical" to the top of the boot order list under Motherboard settings.
